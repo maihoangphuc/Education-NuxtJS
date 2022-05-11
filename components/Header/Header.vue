@@ -75,10 +75,10 @@
               </nuxt-link>
             </div>
 
-            <div v-else>
+            <div class="z-[10]" v-else>
               <button
                 @click="onClickLogout"
-                class="noActive ml-2 px-3 py-2 text-[17px] text-center text-sm rounded-lg bg-[#a0add2] hover:text-[#ffffff] hover:bg-[#6a6973] text-[#ffffff]"
+                class="noActive cursor-pointer ml-2 px-3 py-2 text-[17px] text-center text-sm rounded-lg bg-[#a0add2] hover:text-[#ffffff] hover:bg-[#6a6973] text-[#ffffff]"
               >
                 Logout
               </button>
