@@ -1,14 +1,16 @@
-import axios from 'axios'
-
 export const state = () => ({
   courses: [],
-  status: ''
+  coursesID: {},
 })
 
 export const mutations = {
   //get api courses (firebase)
   GET_COURSES: (state, payload) => {
     state.courses = payload
+  },
+  //get api coursesID (firebase)
+  GET_COURSESID: (state, payload) => {
+    state.coursesID = payload
   },
   //reverse array courses
   REVERSE_COURSES: (state) => {
@@ -23,69 +25,71 @@ export const mutations = {
     const courseIndex = state.courses.findIndex((course) => {
       return course.id === payload.id
     })
-    state.courses[courseIndex] = payload 
+    state.courses[courseIndex] = payload
   },
   //delete api courses (firebase)
   DELETE_COURSES: (state, payload) => {
     state.courses = payload
   },
-  //set status courses
-  SET_STATUS: (state, payload) => {
-    state.status = payload
-  }
 }
 
 export const actions = {
 
   //get api courses (firebase)
-  async getAPICourses({ commit }) {
+  async getAPICourses(vuexContext) {
     // Call api to get init data from server
-    const { data } = await this.$axios.get("https://courses-nuxtjs-default-rtdb.firebaseio.com/courses.json");
-    const newCourses = []
-    for(const key in data){
-      newCourses.push({...data[key], id: key})
-    }
-    commit('GET_COURSES', newCourses);
-    commit('REVERSE_COURSES')
+    return await this.$axios.$get(`${process.env.baseApiUrl}/courses.json`)
+    .then(data => {
+      const newCourses = []
+      for(const key in data){
+        newCourses.push({...data[key], id: key})
+      }
+      vuexContext.commit('GET_COURSES', newCourses);
+      vuexContext.commit('REVERSE_COURSES')
+    })
+    .catch(e => console.log(e))
+  },
 
-    if(data === null){
-      commit('SET_STATUS', 'Course not found !!!');
-    }
-    else{
-      commit('SET_STATUS', '');
-    }
+  //get api coursesID (firebase)
+  getAPICoursesID(vuexContext, data) {
+    return this.$axios.$get(`${process.env.baseApiUrl}/courses/${data}.json`)
+    .then(data => {
+      vuexContext.commit('GET_COURSESID', data)
+    })
+    .catch(e => console.log(e))
   },
 
   //post api courses (firebase)
-  postAPICourses(vuexContext, data){
-    return axios.post('https://courses-nuxtjs-default-rtdb.firebaseio.com/courses.json', data)
-      .then(res => {
+  postAPICourses(vuexContext, payload){
+    return this.$axios.$post(`${process.env.baseApiUrl}/courses.json?auth=${vuexContext.rootGetters['auth/getIdToken']}`, payload)
+      .then(data => {
         // console.log('post', res)
-        vuexContext.commit('POST_COURSES', {...data, id: res.data.name})
+        vuexContext.commit('POST_COURSES', {...payload, id: data.name})
       })
       .catch(e => console.log(e))
   },
 
   //put api courses (firebase)
-  putAPICourses(vuexContext, data){
-    return axios.put(`https://courses-nuxtjs-default-rtdb.firebaseio.com/courses/${data.id}.json`, data)
-      .then(res => {
+  putAPICourses(vuexContext, payload){
+    return this.$axios.$put(`${process.env.baseApiUrl}/courses/${payload.id}.json?auth=${vuexContext.rootGetters['auth/getIdToken']}`, payload)
+      .then(data => {
         // console.log('post', res)
-        vuexContext.commit('PUT_COURSES', {...data, id: res.data.name})
+        vuexContext.commit('PUT_COURSES', {...payload, id: data.name})
         // vuexContext.commit('REVERSE_COURSES')
       })
       .catch(e => console.log(e))
   },
 
   //delete api courses (firebase)
-  deleteAPICourses(vuexContext, data){
-    return axios.delete(`https://courses-nuxtjs-default-rtdb.firebaseio.com/courses/${data.id}.json`, data)
-      .then(res => {
+  deleteAPICourses(vuexContext, payload){
+    return this.$axios.$delete(`${process.env.baseApiUrl}/courses/${payload.id}.json?auth=${vuexContext.rootGetters['auth/getIdToken']}`, payload)
+      .then(data => {
         // console.log('post', res)
-        vuexContext.commit('DELETE_COURSES', {...data, id: res.data.name})
+        vuexContext.commit('DELETE_COURSES', {...payload, id: data.name})
       })
       .catch(e => console.log(e))
   },
+
 }
 
 
@@ -93,9 +97,9 @@ export const getters = {
   getCourses(state){
     return state.courses
   },
-  getStatus(state){
-    return state.status
-  }
+  getCoursesID(state){
+    return state.coursesID
+  },
 }
 
   

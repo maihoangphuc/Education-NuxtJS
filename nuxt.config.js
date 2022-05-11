@@ -1,6 +1,6 @@
 export default {
   // mode: 'universal',
-  target: 'static',
+  // target: 'static',
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     title: 'Education',
@@ -20,7 +20,10 @@ export default {
   css: [],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: ['@/plugins/modal/v-modal.js'],
+  plugins: [
+    '@/plugins/modal/v-modal.js',
+    '@/plugins/g-component/g-component.js'
+  ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -40,9 +43,19 @@ export default {
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
     // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
-    baseURL: '/',
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {},
+
+  env: {
+    fbAPIKey: 'AIzaSyBm0e29rhh9BFcm110V7lAQXST85JZHkkE',
+    baseUrl: process.env.BASE_URL || 'http://localhost:3000',
+    baseApiUrl: process.env.BASE_API_URL || 'https://courses-nuxtjs-default-rtdb.firebaseio.com',
+  },
+
+  // router: {
+  //   middleware: 'log-console'
+  // }
+
 }

@@ -1,15 +1,14 @@
 <template>
   <div class="mt-[30px] mb-[30px] md:px-8">
     <!-- name course -->
-    <h2 class="text-4xl font-bold text-center text-[#d2bfa0] mb-[10px]">{{ courseList.name }}</h2>
+    <h2 class="text-4xl font-bold text-center text-[#d2bfa0] mb-[10px]">{{ coursesID.name }}</h2>
 
     <!-- content course -->
-    <div class="text-[18px] font-medium text-center text-[#474c5c]">{{ `(${courseList.content})` }}</div>
+    <div class="text-[18px] font-medium text-center text-[#474c5c]">{{ `(${coursesID.content})` }}</div>
 
     <!-- show text -->
     <div class="pt-[50px] pb-[20px] flex flex-col justify-center items-center">
-      <img class="w-[500px]" :src="courseList.url" :alt="courseList.name" />
-      <h1 class="text-center text-[18px] mt-[20px] text-gray-600">{{ status }}</h1>
+      <img class="w-[500px]" :src="coursesID.url" :alt="coursesID.name" />
     </div>
 
     <div class="flex justify-center items-center gap-x-4">
@@ -35,17 +34,13 @@
 
 <script>
 export default {
-  async asyncData(context) {
-    return await context.app.$axios
-    .$get(`https://courses-nuxtjs-default-rtdb.firebaseio.com/courses/${context.params.id}.json`)
-    .then(res=>{
-      return {
-        courseList: res
-      }
-    })
-    .catch(e=>{
-      context.error(e)
-    })
+  created(){
+    this.$store.dispatch('courses/getAPICoursesID', this.$route.params.id)
+  },
+  computed: {
+    coursesID() {
+      return this.$store.getters['courses/getCoursesID']
+    },
   },
   methods: {
     openModal(name) {
@@ -53,16 +48,16 @@ export default {
         this.$modal.open({ name: 'modalRoad' })
       }
       else if (name === 'editCourse'){
-        this.$modal.open({ name: 'modalCourse', payload: {...this.courseList, id: this.$route.params.id} })
+        this.$modal.open({ name: 'modalCourse', payload: {...this.coursesID, id: this.$route.params.id} })
       }
       else if (name === 'deleteCourse'){
-        this.$modal.open({ name: 'modalConfirm', payload: {...this.courseList, id: this.$route.params.id}})
+        this.$modal.open({ name: 'modalConfirm', payload: {...this.coursesID, id: this.$route.params.id}})
       }
     },
   },
   head(){
     return{
-      title: `Education - Learning ${this.courseList.name}`
+      title: `Education - Learning ${this.coursesID.name}`
     }
   }
 }

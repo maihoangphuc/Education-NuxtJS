@@ -6,8 +6,12 @@
           class="relative flex flex-wrap items-center justify-between md:py-4"
         >
           <div class="relative z-10 flex-shrink-0 pl-4 py-4 md:p-0">
-            <a href='/'>
-              <img class="h-8 w-8" src="https://www.pngfind.com/pngs/m/221-2219548_education-icon-png-education-logo-white-png-transparent.png" alt="" />
+            <a href="/">
+              <img
+                class="h-8 w-8"
+                src="https://www.pngfind.com/pngs/m/221-2219548_education-icon-png-education-logo-white-png-transparent.png"
+                alt=""
+              />
             </a>
           </div>
           <div class="flex-shrink-0 pr-4 md:hidden">
@@ -32,86 +36,52 @@
             </button>
           </div>
           <div
-            class="
-              hidden
-              md:ml-10
-              md:flex
-              md:items-baseline
-              md:justify-between
-              md:bg-transparent
-            "
+            class="hidden md:ml-10 md:flex md:items-baseline md:justify-between md:bg-transparent"
           >
             <div class="lg:absolute inset-0 flex items-center justify-center">
               <nuxt-link
-                class="
-                  px-4
-                  text-sm
-                  text-[17px]
-                  text-[#6a6973]
-                  hover:text-gray-700
-                  font-bold
-                "
-                to='/'
+                class="px-4 text-sm text-[17px] text-[#6a6973] hover:text-gray-700 font-bold"
+                to="/"
               >
                 Home
               </nuxt-link>
               <nuxt-link
-                class="
-                  px-4
-                  text-sm
-                  text-[17px]
-                  text-[#6a6973]
-                  hover:text-gray-700
-                  font-bold
-                "
-                to='/about'
+                class="px-4 text-sm text-[17px] text-[#6a6973] hover:text-gray-700 font-bold"
+                to="/about"
               >
                 About
               </nuxt-link>
               <nuxt-link
-                class="
-                  px-4
-                  text-sm
-                  text-[17px]
-                  text-[#6a6973]
-                  hover:text-gray-700
-                  font-bold
-                "
-                to='/courses'
+                class="px-4 text-sm text-[17px] text-[#6a6973] hover:text-gray-700 font-bold"
+                to="/courses"
               >
                 Course
               </nuxt-link>
             </div>
-            <div class="relative flex items-baseline">
+
+            <div v-if="!getIsAuthentication" class="relative flex items-baseline">
               <nuxt-link
-                class="
-                  px-4
-                  text-sm
-                  text-[17px]
-                  text-[#6a6973]
-                  hover:text-gray-700
-                  font-bold
-                "
-                to='/login'
+                class="px-4 text-sm text-[17px] text-[#6a6973] hover:text-gray-700 font-bold"
+                to="/login"
               >
                 Login
               </nuxt-link>
-              <a
+              <nuxt-link
                 href="#"
-                class="
-                  ml-2
-                  px-3
-                  py-2
-                  text-[17px]
-                  text-center text-sm
-                  rounded-lg
-                  bg-[#d2bfa0]
-                  hover:text-[#ffffff]
-                  hover:bg-[#6a6973]
-                  text-[#ffffff]
-                "
-                >Create Account</a
+                to="/register"
+                class="noActive ml-2 px-3 py-2 text-[17px] text-center text-sm rounded-lg bg-[#a0add2] hover:text-[#ffffff] hover:bg-[#6a6973] text-[#ffffff]"
               >
+                Create Account
+              </nuxt-link>
+            </div>
+
+            <div v-else>
+              <button
+                @click="onClickLogout"
+                class="noActive ml-2 px-3 py-2 text-[17px] text-center text-sm rounded-lg bg-[#a0add2] hover:text-[#ffffff] hover:bg-[#6a6973] text-[#ffffff]"
+              >
+                Logout
+              </button>
             </div>
           </div>
         </nav>
@@ -149,19 +119,11 @@
         >
           <div
             v-show="isOpen"
-            class="
-              z-10
-              fixed
-              inset-y-0
-              right-0
-              max-w-xs
-              w-full
-              bg-white
-              transition-transform
-              overflow-y-auto
-            "
+            class="z-10 fixed inset-y-0 right-0 max-w-xs w-full bg-white transition-transform overflow-y-auto"
           >
-            <div class="z-10 bg-white w-[100%] pt-[230px] flex justify-center items-center">
+            <div
+              class="z-10 bg-white w-[100%] pt-[230px] flex justify-center items-center"
+            >
               <div
                 :class="isOpen ? 'block' : 'hidden'"
                 class="absolute top-0 right-0 p-5"
@@ -182,84 +144,44 @@
               </div>
               <div class="px-4 pt-4 pb-6">
                 <nuxt-link
-                  class="
-                    mt-8
-                    block
-                    text-[17px]
-                    font-semibold
-                    text-gray-600
-                    uppercase
-                    tracking-wider
-                  "
+                  class="mt-8 block text-[17px] font-semibold text-gray-600 uppercase tracking-wider"
                   to="/"
                 >
                   Home
                 </nuxt-link>
                 <nuxt-link
-                  class="
-                    mt-8
-                    block
-                    text-[17px]
-                    font-semibold
-                    text-gray-600
-                    uppercase
-                    tracking-wider
-                  "
+                  class="mt-8 block text-[17px] font-semibold text-gray-600 uppercase tracking-wider"
                   to="/about"
                 >
                   About
                 </nuxt-link>
                 <nuxt-link
-                  class="
-                    mt-8
-                    block
-                    text-[17px]
-                    font-semibold
-                    text-gray-600
-                    uppercase
-                    tracking-wider
-                  "
+                  class="mt-8 block text-[17px] font-semibold text-gray-600 uppercase tracking-wider"
                   to="/courses"
                 >
                   Course
                 </nuxt-link>
               </div>
             </div>
-            <div class="w-[100%] flex flex-col items-center justify-center gap-y-[30px]">
+            <div
+              class="w-[100%] flex flex-col items-center justify-center gap-y-[30px]"
+            >
               <div>
                 <nuxt-link
                   to="/login"
-                  class="
-                    mt-8
-                    block
-                    text-[17px]
-                    font-semibold
-                    text-gray-600
-                    uppercase
-                    tracking-wider
-                  "
+                  class="mt-8 block text-[17px] font-semibold text-gray-600 uppercase tracking-wider"
                 >
                   Log in
                 </nuxt-link>
               </div>
               <div>
-                <a
+                <nuxt-link
                   href="#"
-                  class="
-                    px-3
-                    py-2
-                    text-[17px]
-                    text-center
-                    rounded-lg
-                    bg-[#d2bfa0]
-                    hover:text-[#ffffff]
-                    hover:bg-[#6a6973]
-                    text-[#ffffff]
-                  "
-                  >
-                    Create Account
-                  </a
+                  to="/register"
+                  class="noActive px-3 py-2 text-[17px] text-center rounded-lg bg-[#d2bfa0] hover:text-[#ffffff] hover:bg-[#6a6973] text-[#ffffff]"
                 >
+                  Create Account
+                </nuxt-link>
               </div>
             </div>
           </div>
@@ -272,10 +194,15 @@
 <script>
 export default {
   name: 'Header',
-  data: function () {
+  data() {
     return {
-      isOpen: false,
+      isOpen: false
     }
+  },
+  computed: {
+    getIsAuthentication() {
+      return this.$store.getters['auth/getIsAuthentication']
+    },
   },
   methods: {
     open() {
@@ -290,12 +217,16 @@ export default {
         this.$refs.openButton.focus()
       })
     },
-  },
+    onClickLogout() {
+      this.$store.dispatch('auth/logout')
+      this.$router.push('/')
+    }
+  }
 }
 </script>
 
 <style scoped>
-  .nuxt-link-exact-active{
-    color:#d2bfa0
-  }
+.nuxt-link-exact-active:not(.noActive) {
+  color: #d2bfa0;
+}
 </style>

@@ -14,9 +14,9 @@
     </div>
 
     <!-- show text -->
-    <div v-if="status" class="pb-[100px] pt-[100px] flex flex-col justify-center items-center">
+    <div v-if="courses.length === 0" class="pb-[100px] pt-[100px] flex flex-col justify-center items-center">
       <img class="w-[200px]" src="https://cdn-icons-png.flaticon.com/512/2748/2748558.png" alt="" />
-      <h1 class="text-center text-[18px] mt-[20px] text-gray-600">{{ status }}</h1>
+      <h1 class="text-center text-[18px] mt-[20px] text-gray-600">No courses!!!</h1>
     </div>
 
     <!-- show courses -->
@@ -46,6 +46,9 @@ export default {
   components: {
     Course,
   },
+  created(){
+    this.$store.dispatch('courses/getAPICourses')
+  },
   methods: {
     openModal(name) {
       if(name === 'createCourse'){
@@ -53,22 +56,16 @@ export default {
       }
     }
   },
-  created(){
-    this.$store.dispatch('courses/getAPICourses')
-  },
   computed: {
     courses() {
       return this.$store.getters['courses/getCourses']
     },
-    status() {
-      return this.$store.getters['courses/getStatus']
-    }
   },
+  middleware: ['auth', 'check-auth'],
   head(){
     return{
       title: `Education - Courses`
     }
   }
-
 }
 </script>

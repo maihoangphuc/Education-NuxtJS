@@ -45,6 +45,9 @@ export default {
         .then(() => {
           //close modal courses
           this.$modal.close({ name: 'modalCourse' })
+
+          //redirect
+          this.$router.push('/courses')
         })
       }
       //put course
@@ -53,6 +56,7 @@ export default {
         .then(() => {
           //close modal courses
           this.$modal.close({ name: 'modalCourse' })
+
           //redirect
           this.$router.push('/courses')
         })
